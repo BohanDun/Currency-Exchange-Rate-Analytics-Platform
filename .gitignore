@@ -26,6 +26,6 @@ airflow-webserver.pid
 logs/
 
 # Local data and notebooks
-data/raw/
+data/raw/*
+!data/raw/.gitkeep
 .ipynb_checkpoints/
-

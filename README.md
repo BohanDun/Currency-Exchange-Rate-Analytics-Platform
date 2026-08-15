@@ -29,15 +29,17 @@ flowchart LR
     G -. orchestrates .-> D
 ```
 
-## Planned project structure
+## Project structure
 
 ```text
 .
-├── dags/                   # Airflow DAGs
+├── docker-compose.yml      # Local services
+├── requirements.txt        # Python dependencies
+├── dags/                   # Airflow DAG
 ├── dashboard/              # Streamlit application and SQL queries
-├── data/sample/            # Small, version-controlled sample data
+├── data/                   # Local raw and version-controlled sample data
 ├── docs/                   # Architecture, data model, and screenshots
-├── notebooks/              # Optional exploratory analysis
+├── notebooks/              # Exploratory analysis
 ├── sql/
 │   ├── ddl/                # Database schema definitions
 │   └── transformations/    # Analytics transformations
@@ -49,6 +51,10 @@ flowchart LR
 │   └── validation/         # Data-quality rules
 └── tests/                  # Automated tests
 ```
+
+Portfolio images such as `architecture_diagram.png` and dashboard screenshots
+will be generated from the working system near the end of the project. They are
+not represented by fake placeholder images.
 
 ## Delivery stages
 
@@ -65,4 +71,3 @@ flowchart LR
 
 Stage 1 is complete. The next task is to inspect the Frankfurter API response
 and implement a small, testable API client.
-

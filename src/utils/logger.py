@@ -1,0 +1,2 @@
+"""Configure consistent application logging."""
+
