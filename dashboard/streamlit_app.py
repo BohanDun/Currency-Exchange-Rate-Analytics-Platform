@@ -48,7 +48,8 @@ st.markdown(
       }
       .dashboard-kicker {
         color: #2F80ED; font-weight: 700; letter-spacing: .08em;
-        text-transform: uppercase; font-size: .78rem;
+        text-transform: uppercase; font-size: .78rem; line-height: 1.5;
+        display: block; margin: 0 0 .45rem 0; padding: .3rem 0 .15rem 0;
       }
       .dashboard-subtitle {color: #6B7C93; margin-top: -.6rem;}
     </style>
