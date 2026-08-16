@@ -63,13 +63,13 @@ not represented by fake placeholder images.
 - [x] 3. Add PostgreSQL storage and idempotent loading
 - [x] 4. Add validation and data-quality checks
 - [x] 5. Build SQL analytical models
-- [ ] 6. Build the Streamlit dashboard
+- [x] 6. Build the Streamlit dashboard
 - [ ] 7. Automate the pipeline with Airflow
 - [ ] 8. Complete Docker integration, tests, and portfolio documentation
 
 ## Progress
 
-Current completion: **72%**
+Current completion: **87%**
 
 | Deliverable | Weight | Status |
 | --- | ---: | --- |
@@ -79,7 +79,7 @@ Current completion: **72%**
 | PostgreSQL storage code | 15% | Complete |
 | SQL analytics models | 15% | Complete |
 | Configuration and end-to-end runner | 5% | Complete |
-| Streamlit dashboard | 15% | Not started |
+| Streamlit dashboard | 15% | Complete |
 | Airflow orchestration | 10% | Not started |
 | Docker integration and portfolio QA | 5% | In progress (2% complete) |
 
@@ -88,4 +88,18 @@ Current completion: **72%**
 Stages 1-5 are implemented and covered by automated tests. Live API ingestion
 and PostgreSQL 16 integration have been verified with a 3,655-row historical
 backfill. Idempotent reloads and all four analytics transformations passed
-database checks. The next implementation task is the Streamlit dashboard.
+database checks. The Streamlit dashboard is implemented and verified against
+the live analytics tables. The next implementation task is Airflow orchestration.
+
+## Run the dashboard
+
+With PostgreSQL running and `.env` configured:
+
+```bash
+source .venv/bin/activate
+streamlit run dashboard/streamlit_app.py
+```
+
+Open `http://localhost:8501`. The dashboard includes currency-pair and date
+filters, headline metrics, rate trends, daily returns, 7/30-observation rolling
+volatility, and prior-30-observation anomaly scores.
