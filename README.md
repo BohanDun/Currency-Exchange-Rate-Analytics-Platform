@@ -69,7 +69,7 @@ not represented by fake placeholder images.
 
 ## Progress
 
-Current completion: **70%**
+Current completion: **72%**
 
 | Deliverable | Weight | Status |
 | --- | ---: | --- |
@@ -81,10 +81,11 @@ Current completion: **70%**
 | Configuration and end-to-end runner | 5% | Complete |
 | Streamlit dashboard | 15% | Not started |
 | Airflow orchestration | 10% | Not started |
-| Docker integration and portfolio QA | 5% | In progress |
+| Docker integration and portfolio QA | 5% | In progress (2% complete) |
 
 ## Status
 
 Stages 1-5 are implemented and covered by automated tests. Live API ingestion
-has been verified. PostgreSQL integration is ready for container testing once
-Docker is available. The next implementation task is the Streamlit dashboard.
+and PostgreSQL 16 integration have been verified with a 3,655-row historical
+backfill. Idempotent reloads and all four analytics transformations passed
+database checks. The next implementation task is the Streamlit dashboard.
