@@ -138,7 +138,9 @@ def render_dashboard() -> None:
     metric_columns = st.columns(4)
     metric_columns[0].metric("Latest rate", f"{latest_rate:,.5f}", percent(period_change))
     metric_columns[1].metric("Latest daily move", percent(latest_return))
-    metric_columns[2].metric("Period range", f"{trend['rate'].min():,.4f} – {trend['rate'].max():,.4f}")
+    metric_columns[2].metric(
+        "Period range", f"{trend['rate'].min():.3f}–{trend['rate'].max():.3f}"
+    )
     metric_columns[3].metric("Anomalies", f"{anomaly_count}")
 
     st.subheader("Exchange-rate trend")
