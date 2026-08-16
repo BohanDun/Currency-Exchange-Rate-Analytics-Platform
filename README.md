@@ -67,6 +67,22 @@ not represented by fake placeholder images.
 - [ ] 7. Automate the pipeline with Airflow
 - [ ] 8. Complete Docker integration, tests, and portfolio documentation
 
+## Progress
+
+Current completion: **70%**
+
+| Deliverable | Weight | Status |
+| --- | ---: | --- |
+| Project structure and scope | 10% | Complete |
+| API ingestion | 15% | Complete |
+| Data validation | 10% | Complete |
+| PostgreSQL storage code | 15% | Complete |
+| SQL analytics models | 15% | Complete |
+| Configuration and end-to-end runner | 5% | Complete |
+| Streamlit dashboard | 15% | Not started |
+| Airflow orchestration | 10% | Not started |
+| Docker integration and portfolio QA | 5% | In progress |
+
 ## Status
 
 Stages 1-5 are implemented and covered by automated tests. Live API ingestion

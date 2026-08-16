@@ -15,7 +15,7 @@ class DatabaseConfigurationError(ValueError):
 
 def build_database_url(environment: Mapping[str, str] | None = None) -> URL:
     """Build a PostgreSQL URL without exposing or manually escaping passwords."""
-    env = environment or os.environ
+    env = environment if environment is not None else os.environ
     required = ("POSTGRES_DB", "POSTGRES_USER", "POSTGRES_PASSWORD")
     missing = [name for name in required if not env.get(name)]
     if missing:
