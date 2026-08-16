@@ -82,7 +82,7 @@ def percent(value: float | None) -> str:
 
 
 def render_dashboard() -> None:
-    st.markdown('<div class="dashboard-kicker">Market intelligence</div>', unsafe_allow_html=True)
+    st.markdown('<p class="dashboard-kicker">Market intelligence</p>', unsafe_allow_html=True)
     st.title("Currency Exchange Rate Analytics")
     st.markdown(
         '<p class="dashboard-subtitle">Daily trends, returns, volatility and explainable anomaly detection.</p>',
