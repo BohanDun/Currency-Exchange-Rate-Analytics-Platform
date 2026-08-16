@@ -62,13 +62,13 @@ not represented by fake placeholder images.
 - [x] 2. Build and test API ingestion
 - [x] 3. Add PostgreSQL storage and idempotent loading
 - [x] 4. Add validation and data-quality checks
-- [ ] 5. Build SQL analytical models
+- [x] 5. Build SQL analytical models
 - [ ] 6. Build the Streamlit dashboard
 - [ ] 7. Automate the pipeline with Airflow
 - [ ] 8. Complete Docker integration, tests, and portfolio documentation
 
 ## Status
 
-Stages 1-4 are implemented and covered by automated tests. Live API ingestion
+Stages 1-5 are implemented and covered by automated tests. Live API ingestion
 has been verified. PostgreSQL integration is ready for container testing once
-Docker is available. The next implementation task is the SQL analytics model.
+Docker is available. The next implementation task is the Streamlit dashboard.
