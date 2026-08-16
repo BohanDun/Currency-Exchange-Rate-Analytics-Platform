@@ -59,9 +59,9 @@ not represented by fake placeholder images.
 ## Delivery stages
 
 - [x] 1. Define the MVP and scaffold the repository
-- [ ] 2. Build and test API ingestion
-- [ ] 3. Add PostgreSQL storage and idempotent loading
-- [ ] 4. Add validation and data-quality checks
+- [x] 2. Build and test API ingestion
+- [x] 3. Add PostgreSQL storage and idempotent loading
+- [x] 4. Add validation and data-quality checks
 - [ ] 5. Build SQL analytical models
 - [ ] 6. Build the Streamlit dashboard
 - [ ] 7. Automate the pipeline with Airflow
@@ -69,5 +69,6 @@ not represented by fake placeholder images.
 
 ## Status
 
-Stage 1 is complete. The next task is to inspect the Frankfurter API response
-and implement a small, testable API client.
+Stages 1-4 are implemented and covered by automated tests. Live API ingestion
+has been verified. PostgreSQL integration is ready for container testing once
+Docker is available. The next implementation task is the SQL analytics model.
