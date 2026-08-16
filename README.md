@@ -64,12 +64,12 @@ not represented by fake placeholder images.
 - [x] 4. Add validation and data-quality checks
 - [x] 5. Build SQL analytical models
 - [x] 6. Build the Streamlit dashboard
-- [ ] 7. Automate the pipeline with Airflow
+- [x] 7. Automate the pipeline with Airflow
 - [ ] 8. Complete Docker integration, tests, and portfolio documentation
 
 ## Progress
 
-Current completion: **87%**
+Current completion: **97%**
 
 | Deliverable | Weight | Status |
 | --- | ---: | --- |
@@ -80,7 +80,7 @@ Current completion: **87%**
 | SQL analytics models | 15% | Complete |
 | Configuration and end-to-end runner | 5% | Complete |
 | Streamlit dashboard | 15% | Complete |
-| Airflow orchestration | 10% | Not started |
+| Airflow orchestration | 10% | Complete |
 | Docker integration and portfolio QA | 5% | In progress (2% complete) |
 
 ## Status
@@ -89,7 +89,8 @@ Stages 1-5 are implemented and covered by automated tests. Live API ingestion
 and PostgreSQL 16 integration have been verified with a 3,655-row historical
 backfill. Idempotent reloads and all four analytics transformations passed
 database checks. The Streamlit dashboard is implemented and verified against
-the live analytics tables. The next implementation task is Airflow orchestration.
+the live analytics tables. Airflow 3.1.7 runs and has completed a three-task DAG
+test successfully. The remaining work is final documentation, screenshots, and QA.
 
 ## Run the dashboard
 
@@ -103,3 +104,33 @@ streamlit run dashboard/streamlit_app.py
 Open `http://localhost:8501`. The dashboard includes currency-pair and date
 filters, headline metrics, rate trends, daily returns, 7/30-observation rolling
 volatility, and prior-30-observation anomaly scores.
+
+## Run Airflow
+
+Initialize Airflow after the first build:
+
+```bash
+docker compose build airflow-init
+docker compose up airflow-init
+```
+
+Start the Airflow services:
+
+```bash
+docker compose up -d --wait \
+  postgres \
+  airflow-api-server \
+  airflow-scheduler \
+  airflow-dag-processor
+```
+
+Open `http://localhost:8080` and sign in with the local credentials configured
+by `AIRFLOW_ADMIN_USERNAME` and `AIRFLOW_ADMIN_PASSWORD` in `.env`. Enable the
+`exchange_rate_analytics_daily` DAG when you want its 06:00 Pacific/Auckland
+daily schedule to run.
+
+For a manual date, trigger the DAG in the UI with this configuration:
+
+```json
+{"run_date": "2025-01-03"}
+```
