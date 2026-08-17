@@ -14,7 +14,9 @@ PROJECT_ROOT = Path(__file__).resolve().parents[1]
 class FakeEngine:
     def __init__(self, row: dict[str, int]) -> None:
         self.connection = Mock()
-        self.connection.execute.return_value.mappings.return_value.one.return_value = row
+        self.connection.execute.return_value.mappings.return_value.one.return_value = (
+            row
+        )
 
     @contextmanager
     def connect(self):
@@ -69,15 +71,18 @@ def test_quality_checks_reject_bad_persisted_data(
 
 
 def test_dag_uses_airflow_3_sdk_and_expected_task_order() -> None:
-    dag_source = (
-        PROJECT_ROOT / "dags" / "exchange_rate_pipeline_dag.py"
-    ).read_text(encoding="utf-8")
+    dag_source = (PROJECT_ROOT / "dags" / "exchange_rate_pipeline_dag.py").read_text(
+        encoding="utf-8"
+    )
 
     assert "from airflow.sdk import dag, get_current_context, task" in dag_source
+    assert "from airflow.exceptions import AirflowSkipException" in dag_source
     assert 'schedule="0 6 * * *"' in dag_source
-    assert 'catchup=False' in dag_source
+    assert "catchup=False" in dag_source
     assert '"retries": 2' in dag_source
     assert "ingestion >> transformation >> quality" in dag_source
     assert "ingest_daily_rates" in dag_source
     assert "refresh_analytics" in dag_source
     assert "check_data_quality" in dag_source
+    assert "if rates.empty:" in dag_source
+    assert "raise AirflowSkipException" in dag_source

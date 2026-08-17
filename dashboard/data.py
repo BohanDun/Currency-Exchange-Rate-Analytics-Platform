@@ -39,9 +39,11 @@ def get_filter_options(engine: Engine) -> tuple[list[str], date, date]:
     if frame.empty:
         raise ValueError("No analytics data is available. Run the pipeline first.")
     pairs = sorted(frame["currency_pair"].drop_duplicates().tolist())
-    return pairs, pd.Timestamp(frame["minimum_date"].iloc[0]).date(), pd.Timestamp(
-        frame["maximum_date"].iloc[0]
-    ).date()
+    return (
+        pairs,
+        pd.Timestamp(frame["minimum_date"].iloc[0]).date(),
+        pd.Timestamp(frame["maximum_date"].iloc[0]).date(),
+    )
 
 
 def load_dashboard_data(
@@ -60,5 +62,10 @@ def load_dashboard_data(
     }
     return {
         name: pd.read_sql_query(text(read_query(name)), engine, params=parameters)
-        for name in ("trend_query", "returns_query", "volatility_query", "anomaly_query")
+        for name in (
+            "trend_query",
+            "returns_query",
+            "volatility_query",
+            "anomaly_query",
+        )
     }

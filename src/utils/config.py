@@ -33,7 +33,9 @@ def load_config(
     else:
         env = environment
 
-    base_url = env.get("FRANKFURTER_BASE_URL", "https://api.frankfurter.dev").rstrip("/")
+    base_url = env.get("FRANKFURTER_BASE_URL", "https://api.frankfurter.dev").rstrip(
+        "/"
+    )
     if not base_url.startswith("https://"):
         raise ValueError("FRANKFURTER_BASE_URL must use HTTPS")
 
@@ -43,7 +45,9 @@ def load_config(
 
     raw_quotes = env.get("QUOTE_CURRENCIES", "USD,GBP,NZD,AUD,JPY")
     quote_currencies = tuple(
-        dict.fromkeys(code.strip().upper() for code in raw_quotes.split(",") if code.strip())
+        dict.fromkeys(
+            code.strip().upper() for code in raw_quotes.split(",") if code.strip()
+        )
     )
     if not quote_currencies:
         raise ValueError("QUOTE_CURRENCIES must contain at least one currency")

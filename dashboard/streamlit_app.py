@@ -82,7 +82,9 @@ def percent(value: float | None) -> str:
 
 
 def render_dashboard() -> None:
-    st.markdown('<p class="dashboard-kicker">Market intelligence</p>', unsafe_allow_html=True)
+    st.markdown(
+        '<p class="dashboard-kicker">Market intelligence</p>', unsafe_allow_html=True
+    )
     st.title("Currency Exchange Rate Analytics")
     st.markdown(
         '<p class="dashboard-subtitle">Daily trends, returns, volatility and explainable anomaly detection.</p>',
@@ -98,7 +100,11 @@ def render_dashboard() -> None:
 
     with st.sidebar:
         st.header("Filters")
-        selected_pair = st.selectbox("Currency pair", pairs, index=pairs.index("EUR/USD") if "EUR/USD" in pairs else 0)
+        selected_pair = st.selectbox(
+            "Currency pair",
+            pairs,
+            index=pairs.index("EUR/USD") if "EUR/USD" in pairs else 0,
+        )
         selected_dates = st.date_input(
             "Date range",
             value=(minimum_date, maximum_date),
@@ -137,7 +143,9 @@ def render_dashboard() -> None:
     last_updated = pd.to_datetime(trend["ingested_at"].max(), utc=True)
 
     metric_columns = st.columns(4)
-    metric_columns[0].metric("Latest rate", f"{latest_rate:,.5f}", percent(period_change))
+    metric_columns[0].metric(
+        "Latest rate", f"{latest_rate:,.5f}", percent(period_change)
+    )
     metric_columns[1].metric("Latest daily move", percent(latest_return))
     metric_columns[2].metric(
         "Period range", f"{trend['rate'].min():.3f}–{trend['rate'].max():.3f}"
@@ -145,7 +153,9 @@ def render_dashboard() -> None:
     metric_columns[3].metric("Anomalies", f"{anomaly_count}")
 
     st.subheader("Exchange-rate trend")
-    trend_figure = px.line(trend, x="rate_date", y="rate", color_discrete_sequence=[COLORS["blue"]])
+    trend_figure = px.line(
+        trend, x="rate_date", y="rate", color_discrete_sequence=[COLORS["blue"]]
+    )
     flagged = anomalies[anomalies["is_anomaly"]].merge(
         trend[["rate_date", "rate"]], on="rate_date", how="left"
     )
@@ -159,13 +169,18 @@ def render_dashboard() -> None:
                 marker={"color": COLORS["red"], "size": 8, "symbol": "diamond"},
             )
         )
-    trend_figure.update_layout(yaxis_title=selected_pair, xaxis_title=None, hovermode="x unified")
+    trend_figure.update_layout(
+        yaxis_title=selected_pair, xaxis_title=None, hovermode="x unified"
+    )
     st.plotly_chart(trend_figure, width="stretch")
 
     left, right = st.columns(2)
     with left:
         st.subheader("Daily return")
-        return_colors = [COLORS["teal"] if value >= 0 else COLORS["red"] for value in returns["daily_pct_change"].fillna(0)]
+        return_colors = [
+            COLORS["teal"] if value >= 0 else COLORS["red"]
+            for value in returns["daily_pct_change"].fillna(0)
+        ]
         return_figure = go.Figure(
             go.Bar(
                 x=returns["rate_date"],
@@ -210,7 +225,9 @@ def render_dashboard() -> None:
                     COLORS["red"] if is_anomaly else COLORS["muted"]
                     for is_anomaly in anomalies["is_anomaly"]
                 ],
-                "size": [7 if is_anomaly else 4 for is_anomaly in anomalies["is_anomaly"]],
+                "size": [
+                    7 if is_anomaly else 4 for is_anomaly in anomalies["is_anomaly"]
+                ],
                 "opacity": 0.75,
             },
             hovertemplate="%{x|%d %b %Y}<br>Z-score %{y:.2f}<extra></extra>",
@@ -235,8 +252,12 @@ def render_dashboard() -> None:
             hide_index=True,
             column_config={
                 "rate_date": st.column_config.DateColumn("Date", format="DD MMM YYYY"),
-                "daily_return_pct": st.column_config.NumberColumn("Daily change", format="%.3f%%"),
-                "anomaly_score": st.column_config.NumberColumn("Z-score", format="%.2f"),
+                "daily_return_pct": st.column_config.NumberColumn(
+                    "Daily change", format="%.3f%%"
+                ),
+                "anomaly_score": st.column_config.NumberColumn(
+                    "Z-score", format="%.2f"
+                ),
                 "anomaly_reason": "Reason",
             },
         )

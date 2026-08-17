@@ -1,2 +1,1 @@
 """Data validation components."""
-

@@ -45,9 +45,7 @@ def test_loads_four_datasets_with_bound_parameters(mock_read_sql: Mock) -> None:
     mock_read_sql.return_value = pd.DataFrame()
     engine = Mock()
 
-    result = load_dashboard_data(
-        engine, "EUR/USD", date(2025, 1, 1), date(2025, 1, 31)
-    )
+    result = load_dashboard_data(engine, "EUR/USD", date(2025, 1, 1), date(2025, 1, 31))
 
     assert set(result) == {
         "trend_query",
@@ -66,6 +64,4 @@ def test_loads_four_datasets_with_bound_parameters(mock_read_sql: Mock) -> None:
 
 def test_rejects_reversed_dashboard_dates() -> None:
     with pytest.raises(ValueError, match="start_date cannot be after end_date"):
-        load_dashboard_data(
-            Mock(), "EUR/USD", date(2025, 2, 1), date(2025, 1, 1)
-        )
+        load_dashboard_data(Mock(), "EUR/USD", date(2025, 2, 1), date(2025, 1, 1))

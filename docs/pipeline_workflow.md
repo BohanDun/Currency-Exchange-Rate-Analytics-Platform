@@ -51,7 +51,10 @@ The ingestion task fetches, validates, and upserts one day's rates. The
 transformation task refreshes all analytics tables transactionally. The final
 task checks expected daily currency coverage, equal row counts across layers,
 and the absence of invalid raw rates. A manual `run_date` parameter supports
-controlled historical reprocessing.
+controlled historical reprocessing. If Frankfurter returns no observations for
+a weekend or public holiday, ingestion raises Airflow's skip signal; downstream
+tasks are skipped and the expected non-publication date does not become a
+failed run.
 
 Airflow's API server, scheduler, and DAG processor share the same JWT secret.
 This allows the scheduler to authenticate task execution requests consistently

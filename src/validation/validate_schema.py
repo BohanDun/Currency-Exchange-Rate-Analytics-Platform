@@ -60,7 +60,9 @@ def validate_exchange_rates(
         raise TypeError("frame must be a pandas DataFrame")
 
     errors: list[str] = []
-    missing_columns = [column for column in REQUIRED_COLUMNS if column not in frame.columns]
+    missing_columns = [
+        column for column in REQUIRED_COLUMNS if column not in frame.columns
+    ]
     if missing_columns:
         raise SchemaValidationError([f"missing columns: {', '.join(missing_columns)}"])
 
@@ -87,7 +89,9 @@ def validate_exchange_rates(
     )
     invalid_timestamp_count = int(parsed_ingested_at.isna().sum())
     if invalid_timestamp_count:
-        errors.append(f"ingested_at contains {invalid_timestamp_count} invalid value(s)")
+        errors.append(
+            f"ingested_at contains {invalid_timestamp_count} invalid value(s)"
+        )
     validated["ingested_at"] = parsed_ingested_at
 
     for column in ("base_currency", "quote_currency"):
@@ -98,12 +102,18 @@ def validate_exchange_rates(
 
     same_currency = validated["base_currency"] == validated["quote_currency"]
     if same_currency.any():
-        errors.append(f"base and quote currencies match in {int(same_currency.sum())} row(s)")
+        errors.append(
+            f"base and quote currencies match in {int(same_currency.sum())} row(s)"
+        )
 
     parsed_rates = pd.to_numeric(validated["rate"], errors="coerce")
-    invalid_rate = parsed_rates.isna() | ~np.isfinite(parsed_rates) | (parsed_rates <= 0)
+    invalid_rate = (
+        parsed_rates.isna() | ~np.isfinite(parsed_rates) | (parsed_rates <= 0)
+    )
     if invalid_rate.any():
-        errors.append(f"rate is non-numeric, non-finite, or non-positive in {int(invalid_rate.sum())} row(s)")
+        errors.append(
+            f"rate is non-numeric, non-finite, or non-positive in {int(invalid_rate.sum())} row(s)"
+        )
     validated["rate"] = parsed_rates.astype("float64")
 
     validated["source"] = validated["source"].astype("string").str.strip().str.lower()

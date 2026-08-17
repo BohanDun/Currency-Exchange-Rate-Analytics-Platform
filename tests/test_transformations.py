@@ -49,7 +49,9 @@ def test_runs_ddl_then_transformations_in_order(tmp_path) -> None:
 
     run_transformations(engine, ddl_path=paths[0], transformation_paths=paths[1:])
 
-    assert [call.args[0] for call in engine.connection.exec_driver_sql.call_args_list] == [
+    assert [
+        call.args[0] for call in engine.connection.exec_driver_sql.call_args_list
+    ] == [
         "SELECT 0;",
         "SELECT 1;",
         "SELECT 2;",
@@ -68,10 +70,7 @@ def test_daily_return_sql_uses_pair_partition_and_lag() -> None:
 
 def test_volatility_requires_complete_windows() -> None:
     sql = read_sql_file(
-        PROJECT_ROOT
-        / "sql"
-        / "transformations"
-        / "transform_rolling_volatility.sql"
+        PROJECT_ROOT / "sql" / "transformations" / "transform_rolling_volatility.sql"
     ).upper()
 
     assert "STDDEV_SAMP" in sql

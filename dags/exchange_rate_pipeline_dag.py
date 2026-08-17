@@ -5,6 +5,7 @@ from __future__ import annotations
 from datetime import timedelta
 
 import pendulum
+from airflow.exceptions import AirflowSkipException
 from airflow.sdk import dag, get_current_context, task
 
 from src.database.connection import create_database_engine
@@ -21,7 +22,12 @@ def _target_date() -> str:
     configured_date = context["params"].get("run_date")
     if configured_date:
         return str(configured_date)
-    return context["data_interval_start"].in_timezone("Pacific/Auckland").date().isoformat()
+    return (
+        context["data_interval_start"]
+        .in_timezone("Pacific/Auckland")
+        .date()
+        .isoformat()
+    )
 
 
 @dag(
@@ -54,6 +60,11 @@ def exchange_rate_pipeline():
                 quote_currencies=config.quote_currencies,
                 base_url=config.frankfurter_base_url,
             )
+            if rates.empty:
+                raise AirflowSkipException(
+                    f"No exchange rates were published for {run_date}; "
+                    "skipping this non-publication date"
+                )
             return load_raw_exchange_rates(rates, engine)
         finally:
             engine.dispose()

@@ -77,7 +77,9 @@ def _build_params(
     end_date: str | date | None,
 ) -> dict[str, str]:
     base = _normalise_currency(base_currency)
-    quotes = tuple(dict.fromkeys(_normalise_currency(code) for code in quote_currencies))
+    quotes = tuple(
+        dict.fromkeys(_normalise_currency(code) for code in quote_currencies)
+    )
 
     if not quotes:
         raise ValueError("At least one quote currency is required")
@@ -151,7 +153,9 @@ def fetch_exchange_rates(
         raise ValueError("timeout_seconds must be positive")
 
     params = _build_params(base_currency, quote_currencies, start_date, end_date)
-    api_root = (base_url or os.getenv("FRANKFURTER_BASE_URL", DEFAULT_BASE_URL)).rstrip("/")
+    api_root = (base_url or os.getenv("FRANKFURTER_BASE_URL", DEFAULT_BASE_URL)).rstrip(
+        "/"
+    )
     client = session or create_retry_session()
     url = f"{api_root}/v2/rates"
 
@@ -179,7 +183,9 @@ def main() -> None:
     parser.add_argument("--quotes", default=",".join(DEFAULT_QUOTES))
     args = parser.parse_args()
 
-    logging.basicConfig(level=logging.INFO, format="%(levelname)s %(name)s: %(message)s")
+    logging.basicConfig(
+        level=logging.INFO, format="%(levelname)s %(name)s: %(message)s"
+    )
     frame = fetch_exchange_rates(
         start_date=args.start_date,
         end_date=args.end_date,

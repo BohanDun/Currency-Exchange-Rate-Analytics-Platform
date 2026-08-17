@@ -96,7 +96,9 @@ def test_rejects_future_rates() -> None:
 
 
 def test_rejects_duplicate_business_keys() -> None:
-    frame = pd.concat([valid_frame().iloc[[0]], valid_frame().iloc[[0]]], ignore_index=True)
+    frame = pd.concat(
+        [valid_frame().iloc[[0]], valid_frame().iloc[[0]]], ignore_index=True
+    )
 
     with pytest.raises(SchemaValidationError, match="business key.*duplicated"):
         validate_exchange_rates(frame, today=date(2025, 1, 4))
@@ -114,9 +116,10 @@ def test_collects_multiple_errors() -> None:
 
 
 def test_current_pipeline_date_uses_business_timezone() -> None:
-    assert current_pipeline_date("Pacific/Auckland") == datetime.now(
-        ZoneInfo("Pacific/Auckland")
-    ).date()
+    assert (
+        current_pipeline_date("Pacific/Auckland")
+        == datetime.now(ZoneInfo("Pacific/Auckland")).date()
+    )
 
 
 def test_rejects_unknown_pipeline_timezone() -> None:
