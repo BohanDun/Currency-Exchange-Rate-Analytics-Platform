@@ -65,11 +65,11 @@ Detailed implementation notes are available in
 - [x] 5. Build SQL analytical models
 - [x] 6. Build the Streamlit dashboard
 - [x] 7. Automate the pipeline with Airflow
-- [ ] 8. Complete final portfolio documentation and visual QA
+- [x] 8. Complete final portfolio documentation and visual QA
 
 ## Progress
 
-Current completion: **99%**
+Current completion: **100%**
 
 | Deliverable | Weight | Status |
 | --- | ---: | --- |
@@ -81,7 +81,7 @@ Current completion: **99%**
 | Configuration and end-to-end runner | 5% | Complete |
 | Streamlit dashboard | 15% | Complete |
 | Airflow orchestration | 10% | Complete |
-| Docker integration and portfolio QA | 5% | In progress (4% complete) |
+| Docker integration and portfolio QA | 5% | Complete |
 
 ## Status
 
@@ -91,8 +91,12 @@ backfill. Idempotent reloads and all four analytics transformations passed
 database checks. The Streamlit dashboard is implemented and verified against
 the live analytics tables. Airflow 3.1.7 has completed both scheduled and
 parameterised manual runs, with all three tasks passing. The automated suite
-contains 56 passing tests. The remaining work is final dashboard screenshots
-and visual QA.
+contains 56 passing tests. Docker Compose configuration and the final portfolio
+screenshots have passed QA.
+
+### Dashboard overview
+
+![Currency exchange-rate analytics dashboard](docs/screenshots/dashboard_overview.png)
 
 ### Verified Airflow run
 
