@@ -52,9 +52,9 @@ flowchart LR
 └── tests/                  # Automated tests
 ```
 
-Portfolio images such as `architecture_diagram.png` and dashboard screenshots
-will be generated from the working system near the end of the project. They are
-not represented by fake placeholder images.
+Detailed implementation notes are available in
+[the pipeline workflow](docs/pipeline_workflow.md) and
+[the data model](docs/data_model.md).
 
 ## Delivery stages
 
@@ -65,11 +65,11 @@ not represented by fake placeholder images.
 - [x] 5. Build SQL analytical models
 - [x] 6. Build the Streamlit dashboard
 - [x] 7. Automate the pipeline with Airflow
-- [ ] 8. Complete Docker integration, tests, and portfolio documentation
+- [ ] 8. Complete final portfolio documentation and visual QA
 
 ## Progress
 
-Current completion: **97%**
+Current completion: **99%**
 
 | Deliverable | Weight | Status |
 | --- | ---: | --- |
@@ -81,7 +81,7 @@ Current completion: **97%**
 | Configuration and end-to-end runner | 5% | Complete |
 | Streamlit dashboard | 15% | Complete |
 | Airflow orchestration | 10% | Complete |
-| Docker integration and portfolio QA | 5% | In progress (2% complete) |
+| Docker integration and portfolio QA | 5% | In progress (4% complete) |
 
 ## Status
 
@@ -89,8 +89,14 @@ Stages 1-5 are implemented and covered by automated tests. Live API ingestion
 and PostgreSQL 16 integration have been verified with a 3,655-row historical
 backfill. Idempotent reloads and all four analytics transformations passed
 database checks. The Streamlit dashboard is implemented and verified against
-the live analytics tables. Airflow 3.1.7 runs and has completed a three-task DAG
-test successfully. The remaining work is final documentation, screenshots, and QA.
+the live analytics tables. Airflow 3.1.7 has completed both scheduled and
+parameterised manual runs, with all three tasks passing. The automated suite
+contains 56 passing tests. The remaining work is final dashboard screenshots
+and visual QA.
+
+### Verified Airflow run
+
+![Successful Airflow DAG run](docs/screenshots/airflow_success.png)
 
 ## Run the dashboard
 
