@@ -1,12 +1,14 @@
 """Tests for exchange-rate schema validation."""
 
-from datetime import date
+from datetime import date, datetime
+from zoneinfo import ZoneInfo
 
 import pandas as pd
 import pytest
 
 from src.validation.validate_schema import (
     SchemaValidationError,
+    current_pipeline_date,
     validate_exchange_rates,
 )
 
@@ -109,3 +111,14 @@ def test_collects_multiple_errors() -> None:
         validate_exchange_rates(frame, today=date(2025, 1, 4))
 
     assert len(exc_info.value.errors) == 2
+
+
+def test_current_pipeline_date_uses_business_timezone() -> None:
+    assert current_pipeline_date("Pacific/Auckland") == datetime.now(
+        ZoneInfo("Pacific/Auckland")
+    ).date()
+
+
+def test_rejects_unknown_pipeline_timezone() -> None:
+    with pytest.raises(ValueError, match="Unknown PIPELINE_TIMEZONE"):
+        current_pipeline_date("Not/A-Timezone")

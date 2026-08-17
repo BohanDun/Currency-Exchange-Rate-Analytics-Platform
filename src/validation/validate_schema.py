@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
-from datetime import date, datetime, timezone
+import os
+from datetime import date, datetime
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
 import numpy as np
 import pandas as pd
@@ -24,6 +26,15 @@ class SchemaValidationError(ValueError):
     def __init__(self, errors: list[str]) -> None:
         self.errors = errors
         super().__init__("Exchange-rate validation failed: " + "; ".join(errors))
+
+
+def current_pipeline_date(timezone_name: str | None = None) -> date:
+    """Return today's date in the pipeline's configured business timezone."""
+    name = timezone_name or os.getenv("PIPELINE_TIMEZONE", "UTC")
+    try:
+        return datetime.now(ZoneInfo(name)).date()
+    except ZoneInfoNotFoundError as exc:
+        raise ValueError(f"Unknown PIPELINE_TIMEZONE: {name}") from exc
 
 
 def _invalid_currency_values(series: pd.Series) -> list[str]:
@@ -100,7 +111,7 @@ def validate_exchange_rates(
     if blank_source.any():
         errors.append(f"source is blank in {int(blank_source.sum())} row(s)")
 
-    comparison_date = pd.Timestamp(today or datetime.now(timezone.utc).date())
+    comparison_date = pd.Timestamp(today or current_pipeline_date())
     future_dates = parsed_date_times.notna() & (parsed_date_times > comparison_date)
     if future_dates.any():
         errors.append(f"rate_date is in the future in {int(future_dates.sum())} row(s)")
